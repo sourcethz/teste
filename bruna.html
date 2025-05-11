@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>Feliz Dia das Mães Bruna - Amo Você e a Liz</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Sacramento&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;500&display=swap');
+
+  /* Reset e base */
+  *, *::before, *::after {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body, html {
+    height: 100%;
+    background: #ffe6f2;
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+    color: #41002e;
+    position: relative;
+    min-height: 600px;
+    min-width: 350px;
+  }
+
+  /* Wrapper para layering da animação e conteúdo */
+  .page-wrapper {
+    position: relative;
+    max-width: 430px;
+    margin: 40px auto 70px auto;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow:
+      0 20px 50px rgba(212, 56, 117, 0.37),
+      inset 0 0 60px #ffb7d4;
+    background: linear-gradient(145deg, #fff5fa, #ffc9e3);
+  }
+
+  /* Canvas para animação no fundo do texto */
+  #backgroundCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Container de texto, fica acima do canvas */
+  .container {
+    position: relative;
+    z-index: 10;
+    padding: 36px 42px 48px 42px;
+    text-align: center;
+    color: #41002e;
+  }
+
+  /* Título principal */
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 3.9rem;
+    color: #b0105b;
+    text-shadow: 2px 2px 6px #fbc6decc;
+    margin-bottom: 22px;
+    letter-spacing: 0.2em;
+    user-select: text;
+  }
+
+  /* Nome decorativo */
+  .name {
+    font-family: 'Sacramento', cursive;
+    color: #e51570;
+    font-size: 4.3rem;
+    display: block;
+    margin-top: -12px;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 5px #ff9acdcc;
+    user-select: text;
+  }
+
+  /* Subtítulo */
+  .subtitle {
+    font-family: 'Sacramento', cursive;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.65rem;
+    color: #8b0148;
+    margin-bottom: 28px;
+    text-shadow: 0 0 8px #ffc0dea6;
+    user-select: text;
+  }
+
+  /* Texto principal romanticamente estilizado */
+  p.message {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.3rem;
+    line-height: 1.75;
+    color: #560035;
+    text-align: justify;
+    letter-spacing: 0.03em;
+    margin-bottom: 42px;
+    user-select: text;
+    text-shadow:
+      0 0 6px #ffdae7ca;
+  }
+
+  /* Botão surpresa */
+  button.surprise-btn {
+    background: #c20c72;
+    color: #fff;
+    border: none;
+    padding: 18px 52px;
+    font-size: 1.28rem;
+    font-weight: 700;
+    border-radius: 60px;
+    cursor: pointer;
+    box-shadow:
+      0 6px 16px rgba(194, 12, 114, 0.75),
+      0 0 18px rgba(255, 92, 146, 0.9);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    user-select: none;
+  }
+  button.surprise-btn:hover,
+  button.surprise-btn:focus {
+    transform: translateY(-5px);
+    box-shadow:
+      0 12px 32px rgba(255, 56, 115, 0.95),
+      0 0 30px rgba(255, 72, 132, 1);
+    outline: none;
+  }
+
+  /* Modal surpresa */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 55;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(41, 0, 26, 0.85);
+    backdrop-filter: blur(7px);
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    overflow-y: auto;
+  }
+  .modal.active {
+    display: flex;
+    animation: modalFadeIn 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  @keyframes modalFadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  /* Conteúdo da carta */
+  .modal-content {
+    background: linear-gradient(135deg, #ffe8f3, #ffb4ce);
+    border-radius: 36px;
+    max-width: 480px;
+    width: 100%;
+    padding: 38px 46px 46px 46px;
+    box-shadow: 0 9px 40px rgba(194, 12, 114, 0.65);
+    color: #650038;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    user-select: text;
+    transform-origin: center top;
+    animation: letterPopUp 0.45s ease forwards;
+    position: relative;
+    text-align: center;
+  }
+  @keyframes letterPopUp {
+    from {
+      opacity: 0;
+      transform: scale(0.88) translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Título da modal */
+  .modal-content h2 {
+    font-family: 'Sacramento', cursive;
+    font-size: 3.8rem;
+    margin-bottom: 16px;
+    text-shadow: 0 0 9px #ff9accdd;
+  }
+
+  /* Texto da modal */
+  .modal-content p {
+    font-size: 1.4rem;
+    margin-bottom: 36px;
+    user-select: text;
+  }
+
+  /* Fotos carta */
+  .letter-photos {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
+  .letter-photos img {
+    border-radius: 26px;
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    box-shadow:
+      0 8px 32px rgba(194, 12, 114, 0.6);
+    transition: transform 0.45s ease, box-shadow 0.45s ease;
+    cursor: pointer;
+    border: 2.5px solid #e9509e;
+  }
+  .letter-photos img:hover,
+  .letter-photos img:focus {
+    transform: scale(1.12) rotate(3deg);
+    box-shadow:
+      0 14px 48px rgba(255, 81, 143, 0.95);
+    outline: none;
+  }
+
+  /* Botão Fechar */
+  .close-btn {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 40px;
+    color: #ab2382bb;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  .close-btn:hover,
+  .close-btn:focus {
+    color: #e92579;
+    outline: none;
+  }
+
+  /* Controles musicais discretos */
+  #musicControl {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    background: #c20c72cc;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    box-shadow:
+      0 4px 10px rgba(194,12,114,0.9);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: background 0.3s ease;
+  }
+  #musicControl:hover, #musicControl:focus {
+    background: #e5167bcc;
+    outline: none;
+  }
+  #musicControl svg {
+    fill: #fff;
+    width: 26px;
+    height: 26px;
+    pointer-events: none;
+  }
+
+  /* Responsividade mobile */
+  @media (max-width: 400px) {
+    .page-wrapper {
+      margin: 30px 16px 50px 16px;
+    }
+    h1 {
+      font-size: 3rem;
+      letter-spacing: 0.15em;
+    }
+    .name {
+      font-size: 4rem;
+      margin-bottom: 25px;
+    }
+    .subtitle {
+      font-size: 1.4rem;
+    }
+    p.message {
+      font-size: 1.15rem;
+    }
+    button.surprise-btn {
+      padding: 16px 42px;
+      font-size: 1.15rem;
+    }
+    .modal-content {
+      padding: 32px 30px 38px 30px;
+    }
+    .modal-content h2 {
+      font-size: 3rem;
+    }
+    .modal-content p {
+      font-size: 1.3rem;
+    }
+    .letter-photos img {
+      width: 112px;
+      height: 112px;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="page-wrapper" aria-label="Área principal do site com texto e coração animado" id="pageWrapper">
+    <canvas id="backgroundCanvas" aria-hidden="true"></canvas>
+    <main class="container" role="main" aria-label="Mensagem romântica para Dia das Mães à Bruna">
+      <h1>Feliz Dia das Mães</h1>
+      <span class="name" aria-label="Nome Bruna">Bruna</span>
+      <div class="subtitle" aria-label="Subtítulo descritivo">Para a mãe incansável, guerreira e incrível da Liz, minha inspiração e meu amor</div>
+      <p class="message" aria-label="Mensagem de amor e admiração">
+        Bruna, meu amor, cada dia me convenço ainda mais do quão maravilhosa você é: uma mãe incrível, uma mulher guerreira que enfrenta tudo com um sorriso no rosto e coração gigante.  
+        A sua força é fonte de luz para a Liz e inspiração para mim. Admiro profundamente sua entrega e dedicação, seu amor que não tem limites, seu jeito doce e corajoso de guiar nossa família.  
+        Você é a mulher que admiro, que amo e que me faz querer ser melhor. Neste Dia das Mães, celebro você, não só como mãe da nossa preciosa Liz, mas como a parceira da minha vida e meu porto seguro.  
+        Obrigado por ser essa pessoa única e maravilhosa. Te amo demais, hoje e sempre.
+      </p>
+      <button class="surprise-btn" id="btnSurprise" aria-haspopup="dialog" aria-controls="modalSurprise" aria-expanded="false">Descubra a surpresa!</button>
+    </main>
+  </div>
+
+  <section class="modal" id="modalSurprise" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc" tabindex="-1">
+    <article class="modal-content">
+      <button class="close-btn" id="btnClose" aria-label="Fechar surpresa">&times;</button>
+      <h2 id="modalTitle">Melhores Momentos</h2>
+      <p id="modalDesc">Seus melhores momentos, capturados com todo amor e carinho.</p>
+      <div class="letter-photos" aria-label="Fotos de momentos felizes juntos com Liz">
+        <img src="https://imgur.com/a/q9aXjY9" alt="Bruna e eu sorrindo juntos" tabindex="0" />
+        <img src="https://i.imgur.com/THlL7nl.jpg" alt="Abraço apertado na praia com Liz" tabindex="0" />
+        <img src="https://i.imgur.com/K8YyxYw.jpg" alt="Selfie divertida e alegre nossa com Liz" tabindex="0" />
+      </div>
+    </article>
+  </section>
+
+  <!-- Controle de música -->
+  <div id="musicControl" role="button" tabindex="0" aria-label="Ativar ou pausar música">
+    <svg id="musicIcon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M3 22v-20l18 10-18 10z"/>
+    </svg>
+  </div>
+
+  <!-- YouTube Player oculto para controle via API -->
+  <div id="youtubePlayerWrapper" style="display:none;">
+    <iframe id="youtubePlayer" src="https://www.youtube.com/embed/nyuo9-OjNNg?autoplay=1&loop=1&playlist=nyuo9-OjNNg&mute=1&controls=0&disablekb=1&modestbranding=1&rel=0&showinfo=0&enablejsapi=1" frameborder="0" allow="autoplay" allowfullscreen></iframe>
+  </div>
+
+<script>
+  // Fundo animado com canvas: partículas brilhantes e corações lentamente flutuando
+  const canvas = document.getElementById('backgroundCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let hearts = [];
+  let particles = [];
+
+  class Heart {
+    constructor(x=null, y=null) {
+      this.x = x;
+      this.y = y;
+      this.size = 15 + Math.random() * 12;
+      this.speedY = 0.3 + Math.random() * 0.45;
+      this.speedX = (Math.random() - 0.5) * 0.15;
+      this.opacity = 0.2 + Math.random() * 0.5;
+      this.angle = Math.random() * Math.PI * 2;
+      this.angleSpeed = (Math.random() - 0.5) * 0.02;
+      this.color1 = 'rgba(255,105,150,' + this.opacity.toFixed(2) + ')';
+      this.color2 = 'rgba(255,63,128,' + this.opacity.toFixed(2) + ')';
+
+      // If no initial x,y passed, randomize bottom start position
+      if(this.x === null || this.y === null) {
+        this.x = Math.random() * width;
+        this.y = height + Math.random() * 50;
+      }
+    }
+    draw() {
+      const x = this.x;
+      const y = this.y;
+      const size = this.size;
+      const angle = this.angle;
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.beginPath();
+      ctx.moveTo(0, -size / 4);
+      ctx.bezierCurveTo(size * 0.35, -size * 0.65, size, -size * 0.15, 0, size);
+      ctx.bezierCurveTo(-size, -size * 0.15, -size * 0.35, -size * 0.65, 0, -size / 4);
+      const grad = ctx.createRadialGradient(0, 0, size * 0.1, 0, 0, size);
+      grad.addColorStop(0, this.color1);
+      grad.addColorStop(1, this.color2);
+      ctx.fillStyle = grad;
+      ctx.fill();
+      ctx.restore();
+    }
+    update() {
+      this.y -= this.speedY;
+      this.x += this.speedX;
+      this.angle += this.angleSpeed;
+
+      if (this.y < -50 || this.x < -50 || this.x > width + 50) {
+        this.x = Math.random() * width;
+        this.y = height + 30;
+      }
+    }
+  }
+
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    reset() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.radius = 0.5 + Math.random() * 1.2;
+      this.opacity = 0.15 + Math.random() * 0.25;
+      this.speedY = 0.02 + Math.random() * 0.03;
+      this.speedX = (Math.random() - 0.5) * 0.01;
+      this.angle = Math.random() * Math.PI * 2;
+      this.angleSpeed = 0.001 + Math.random() * 0.01;
+      this.color = `rgba(255, 173, 220, ${this.opacity.toFixed(3)})`;
+    }
+    draw() {
+      ctx.save();
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.shadowColor = 'rgba(255, 192, 220, 0.7)';
+      ctx.shadowBlur = 6;
+      ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
+    update() {
+      this.y -= this.speedY;
+      this.x += this.speedX;
+      this.angle += this.angleSpeed;
+
+      if (this.y < 0) this.y = height;
+      if (this.x > width) this.x = 0;
+      if (this.x < 0) this.x = width;
+    }
+  }
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    const wrapper = document.querySelector('.page-wrapper');
+    const rect = wrapper.getBoundingClientRect();
+    canvas.width = rect.width * devicePixelRatio;
+    canvas.height = rect.height * devicePixelRatio;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+
+  function createHeartInstance(x=null, y=null) {
+    const h = new Heart(x, y);
+    hearts.push(h);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width / devicePixelRatio, canvas.height / devicePixelRatio);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    hearts.forEach(h => {
+      h.update();
+      h.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  function init() {
+    resize();
+    hearts = [];
+    particles = [];
+    // Inicialmente cria 80 corações todos já espalhados na base (começando da 'bottom')
+    for (let i = 0; i < 80; i++) hearts.push(new Heart());
+    for (let i = 0; i < 120; i++) particles.push(new Particle());
+  }
+
+  window.addEventListener('resize', () => {
+    init();
+  });
+
+  // Ao carregar a pagina
+  window.addEventListener('load', () => {
+    init();
+    animate();
+
+    // Adiciona evento de clique na área da página para adicionar corações no local do clique
+    const wrapper = document.getElementById('pageWrapper');
+    wrapper.addEventListener('click', (e) => {
+      // Pega posição relativa do clique dentro do canvas (pageWrapper)
+      const rect = wrapper.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      // Cria 10 corações novos na posição do clique
+      for (let i=0; i < 10; i++) {
+        // Pequenos deslocamentos aleatórios para distribuir os corações em torno do clique
+        const offsetX = (Math.random() - 0.5) * 30;
+        const offsetY = (Math.random() - 0.5) * 30;
+        createHeartInstance(clickX + offsetX, clickY + offsetY);
+      }
+    });
+  });
+
+  // Modal surpresa lógica
+  const btnSurprise = document.getElementById('btnSurprise');
+  const modal = document.getElementById('modalSurprise');
+  const btnClose = document.getElementById('btnClose');
+
+  btnSurprise.addEventListener('click', () => {
+    modal.classList.add('active');
+    btnSurprise.setAttribute('aria-expanded', 'true');
+    modal.focus();
+  });
+
+  btnClose.addEventListener('click', () => {
+    modal.classList.remove('active');
+    btnSurprise.setAttribute('aria-expanded', 'false');
+    btnSurprise.focus();
+  });
+
+  // Fechar modal com ESC
+  window.addEventListener('keydown', e => {
+    if(e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      btnSurprise.setAttribute('aria-expanded', 'false');
+      btnSurprise.focus();
+    }
+  });
+
+  // Foco dentro modal (acessibilidade)
+  modal.addEventListener('keydown', e => {
+    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusableElements.length) return;
+    const firstEl = focusableElements[0];
+    const lastEl = focusableElements[focusableElements.length - 1];
+
+    if(e.key === 'Tab') {
+      if(e.shiftKey) {
+        if(document.activeElement === firstEl) {
+          e.preventDefault();
+          lastEl.focus();
+        }
+      } else {
+        if(document.activeElement === lastEl) {
+          e.preventDefault();
+          firstEl.focus();
+        }
+      }
+    }
+  });
+
+  // Controle de música via API YouTube
+  let musicPlaying = false;
+  const musicControl = document.getElementById('musicControl');
+  const musicIcon = document.getElementById('musicIcon');
+  const iframe = document.getElementById('youtubePlayer');
+
+  function toggleMusic() {
+    if (musicPlaying) {
+      // Pausa música
+      iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      musicIcon.innerHTML = `<path d="M6 4v16l12-8z"/>`; // ícone play
+      musicPlaying = false;
+    } else {
+      // Toca música e ativa som
+      iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+      iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      musicIcon.innerHTML = `<path d="M3 22v-20l18 10-18 10z"/>`; // ícone pause
+      musicPlaying = true;
+    }
+  }
+
+  musicControl.addEventListener('click', toggleMusic);
+  musicControl.addEventListener('keypress', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleMusic();
+    }
+  });
+
+  // Inicializa iframe YouTube API
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      // Preparar para receber comandos
+      iframe.contentWindow.postMessage('{"event":"listening","id":"youtubePlayer"}', '*');
+    }, 1000);
+  });
+
+</script>
+</body>
+</html>
+
